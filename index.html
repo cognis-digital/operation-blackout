@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OPERATION BLACKOUT — Tactical FPS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== MAIN MENU ===================== -->
+<div id="mainMenu" class="screen">
+  <div class="bgGrid"></div>
+  <div class="menuContent">
+    <h1 class="gameTitle">OPERATION<span>BLACKOUT</span></h1>
+    <p class="subtitle">TACTICAL COMBAT SIMULATOR</p>
+
+    <div class="soldierInfo">
+      <div class="rankBadge" id="menuRankBadge">PVT</div>
+      <div>
+        <div class="soldierName" id="menuSoldierName">PVT. JOHN DOE</div>
+        <div class="xpBar"><div class="xpFill" id="menuXpFill"></div></div>
+        <div class="stats">
+          <span>XP: <b id="menuXP">0</b></span>
+          <span>$<b id="menuMoney">500</b></span>
+          <span>K/D: <b id="menuKD">0/0</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="menuButtons">
+      <button class="btnPrimary" onclick="UI.openMissionSelect()">▶ DEPLOY</button>
+      <button class="btnSecondary" onclick="UI.openLoadout()">⚙ LOADOUT</button>
+      <button class="btnSecondary" onclick="UI.openSettings()">⚒ SETTINGS</button>
+      <button class="btnSecondary" onclick="UI.openControls()">🎮 CONTROLS</button>
+    </div>
+    <p class="hint">Press <b>ESC</b> in-game to pause • Click DEPLOY to begin</p>
+  </div>
+</div>
+
+<!-- ===================== MISSION SELECT ===================== -->
+<div id="missionMenu" class="screen hidden">
+  <div class="panel wide">
+    <h2>SELECT MISSION</h2>
+    <div class="missionList" id="missionList"></div>
+    <div class="aiControls">
+      <label>AI Difficulty:
+        <select id="aiDifficulty">
+          <option value="recruit">Recruit (Easy)</option>
+          <option value="regular" selected>Regular</option>
+          <option value="veteran">Veteran (Hard)</option>
+          <option value="elite">Elite (Brutal)</option>
+        </select>
+      </label>
+      <label>AI Behavior:
+        <select id="aiBehavior">
+          <option value="passive">Passive</option>
+          <option value="balanced" selected>Balanced</option>
+          <option value="aggressive">Aggressive</option>
+          <option value="tactical">Tactical (Flank & Suppress)</option>
+        </select>
+      </label>
+      <label>Enemy Count:
+        <input type="range" id="enemyCount" min="3" max="20" value="8">
+        <span id="enemyCountVal">8</span>
+      </label>
+    </div>
+    <div class="menuButtons row">
+      <button class="btnSecondary" onclick="UI.backToMain()">◀ BACK</button>
+      <button class="btnPrimary" id="startMissionBtn">DEPLOY ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LOADOUT ===================== -->
+<div id="loadoutMenu" class="screen hidden">
+  <div class="panel wide">
+    <h2>LOADOUT</h2>
+    <div class="loadoutGrid">
+      <div class="classSelect">
+        <h3>CLASS</h3>
+        <div id="classList"></div>
+      </div>
+      <div class="weaponSelect">
+        <h3>PRIMARY WEAPON</h3>
+        <div id="primaryList"></div>
+        <h3>SECONDARY</h3>
+        <div id="secondaryList"></div>
+        <h3>LETHAL / TACTICAL</h3>
+        <div id="gearList"></div>
+      </div>
+      <div class="weaponPreview">
+        <h3>WEAPON STATS</h3>
+        <div id="weaponStats" class="weaponStats">Select a weapon</div>
+        <h3>ARMOR</h3>
+        <div id="armorList"></div>
+      </div>
+    </div>
+    <div class="menuButtons row">
+      <button class="btnSecondary" onclick="UI.backToMain()">◀ BACK</button>
+      <button class="btnPrimary" onclick="UI.saveLoadout()">✓ SAVE LOADOUT</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SETTINGS ===================== -->
+<div id="settingsMenu" class="screen hidden">
+  <div class="panel">
+    <h2>SETTINGS</h2>
+    <label>Mouse Sensitivity: <input type="range" id="sensSlider" min="0.5" max="5" step="0.1" value="2"><span id="sensVal">2.0</span></label>
+    <label>FOV: <input type="range" id="fovSlider" min="60" max="110" step="1" value="80"><span id="fovVal">80</span></label>
+    <label>Master Volume: <input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.7"><span id="volVal">70%</span></label>
+    <label>Invert Y: <input type="checkbox" id="invertY"></label>
+    <label>Show FPS: <input type="checkbox" id="showFPS" checked></label>
+    <div class="menuButtons row">
+      <button class="btnSecondary" onclick="UI.backToMain()">◀ BACK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONTROLS ===================== -->
+<div id="controlsMenu" class="screen hidden">
+  <div class="panel">
+    <h2>CONTROLS</h2>
+    <div class="controlsGrid">
+      <div><b>W A S D</b> – Move</div><div><b>Mouse</b> – Look / Aim</div>
+      <div><b>Left Click</b> – Fire</div><div><b>Right Click</b> – ADS (Aim)</div>
+      <div><b>Shift</b> – Sprint</div><div><b>Ctrl</b> – Crouch</div>
+      <div><b>Space</b> – Jump</div><div><b>R</b> – Reload</div>
+      <div><b>1 / 2</b> – Primary / Secondary</div><div><b>3</b> – Lethal (Grenade)</div>
+      <div><b>4</b> – Tactical (Flash/Smoke)</div><div><b>G</b> – Quick Throw Grenade</div>
+      <div><b>F</b> – Interact / Pickup</div><div><b>Q</b> – Lean Left</div>
+      <div><b>E</b> – Lean Right</div><div><b>V</b> – Melee</div>
+      <div><b>M</b> – Map</div><div><b>Tab</b> – Scoreboard</div>
+      <div><b>ESC</b> – Pause</div><div><b>H</b> – Heal / Bandage</div>
+    </div>
+    <div class="menuButtons row">
+      <button class="btnSecondary" onclick="UI.backToMain()">◀ BACK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GAME HUD ===================== -->
+<div id="gameContainer" class="hidden">
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Crosshair -->
+  <div id="crosshair">
+    <div class="ch-dot"></div>
+    <div class="ch-t"></div><div class="ch-r"></div>
+    <div class="ch-b"></div><div class="ch-l"></div>
+  </div>
+  <div id="hitMarker" class="hidden"></div>
+  <div id="damageVignette"></div>
+  <div id="bloodOverlay"></div>
+  <div id="flashOverlay"></div>
+
+  <!-- Top HUD -->
+  <div id="topHUD">
+    <div id="objectiveBox">
+      <div class="objTitle">OBJECTIVE</div>
+      <div id="objText">—</div>
+    </div>
+    <div id="fpsDisplay">FPS: 60</div>
+  </div>
+
+  <!-- Compass -->
+  <div id="compass">
+    <div id="compassStrip"></div>
+    <div class="compassMarker">▼</div>
+  </div>
+
+  <!-- Radar / Minimap -->
+  <div id="radar">
+    <canvas id="radarCanvas" width="180" height="180"></canvas>
+    <div class="radarLabel">TAC-MAP</div>
+  </div>
+
+  <!-- Bottom HUD -->
+  <div id="bottomHUD">
+    <div id="healthArmor">
+      <div class="bodyDamage">
+        <svg viewBox="0 0 60 100" width="55" height="90">
+          <ellipse cx="30" cy="14" rx="9" ry="11" id="bp-head" class="bp"/>
+          <rect x="18" y="25" width="24" height="30" rx="4" id="bp-torso" class="bp"/>
+          <rect x="9" y="27" width="9" height="26" rx="3" id="bp-larm" class="bp"/>
+          <rect x="42" y="27" width="9" height="26" rx="3" id="bp-rarm" class="bp"/>
+          <rect x="19" y="56" width="10" height="35" rx="3" id="bp-lleg" class="bp"/>
+          <rect x="31" y="56" width="10" height="35" rx="3" id="bp-rleg" class="bp"/>
+        </svg>
+      </div>
+      <div class="bars">
+        <div class="barLabel">HEALTH <span id="hpText">100</span></div>
+        <div class="bar"><div id="hpBar" class="barFill hp"></div></div>
+        <div class="barLabel">ARMOR <span id="armorText">100</span></div>
+        <div class="bar"><div id="armorBar" class="barFill armor"></div></div>
+        <div id="bleedIndicator" class="hidden">🩸 BLEEDING — Press H</div>
+      </div>
+    </div>
+
+    <div id="weaponHUD">
+      <div id="weaponName">—</div>
+      <div id="ammoDisplay">
+        <span id="ammoCurrent">30</span> / <span id="ammoReserve">90</span>
+      </div>
+      <div id="fireMode">AUTO</div>
+    </div>
+
+    <div id="gearHUD">
+      <div class="gearItem"><span>3</span><div>🧈</div><div id="lethalCount">2</div></div>
+      <div class="gearItem"><span>4</span><div>💥</div><div id="tacticalCount">2</div></div>
+    </div>
+  </div>
+
+  <!-- CoD-style hotbar (slots 1-4) -->
+  <div id="hotbar">
+    <div class="hotSlot active" data-slot="primary"><span class="hk">1</span><span class="hname" id="hot1">—</span></div>
+    <div class="hotSlot" data-slot="secondary"><span class="hk">2</span><span class="hname" id="hot2">—</span></div>
+    <div class="hotSlot" data-slot="lethal"><span class="hk">3</span><span class="hname" id="hot3">—</span></div>
+    <div class="hotSlot" data-slot="tactical"><span class="hk">4</span><span class="hname" id="hot4">—</span></div>
+  </div>
+
+  <!-- Stamina + reload progress -->
+  <div id="staminaBar"><div id="staminaFill"></div></div>
+  <div id="reloadBar" class="hidden"><div id="reloadFill"></div><span>RELOADING</span></div>
+
+  <!-- Killfeed -->
+  <div id="killfeed"></div>
+
+  <!-- XP popup -->
+  <div id="xpPopups"></div>
+
+  <!-- Hit indicators -->
+  <div id="hitIndicators"></div>
+
+  <!-- Scope overlay -->
+  <div id="scopeOverlay" class="hidden">
+    <div class="scopeCircle">
+      <div class="scopeReticle">
+        <div class="reticleV"></div><div class="reticleH"></div>
+        <div class="reticleDot"></div>
+      </div>
+    </div>
+    <div id="scopeZoom">ZOOM ×6</div>
+  </div>
+
+  <!-- Pause Menu -->
+  <div id="pauseMenu" class="overlay hidden">
+    <div class="panel">
+      <h2>PAUSED</h2>
+      <button class="btnPrimary" onclick="UI.resumeGame()">▶ RESUME</button>
+      <button class="btnSecondary" onclick="UI.openControls(true)">CONTROLS</button>
+      <button class="btnSecondary" onclick="UI.openSettings(true)">SETTINGS</button>
+      <button class="btnDanger" onclick="UI.endMission()">✕ ABORT MISSION</button>
+    </div>
+  </div>
+
+  <!-- Mission End -->
+  <div id="missionEnd" class="overlay hidden">
+    <div class="panel">
+      <h2 id="endTitle">MISSION COMPLETE</h2>
+      <div id="endStats" class="endStats"></div>
+      <button class="btnPrimary" onclick="UI.endMission()">CONTINUE</button>
+    </div>
+  </div>
+
+  <!-- Death screen -->
+  <div id="deathScreen" class="overlay hidden">
+    <h1>YOU ARE DEAD</h1>
+    <p id="deathReason">Killed in action</p>
+    <button class="btnPrimary" onclick="UI.endMission()">RETURN TO BASE</button>
+  </div>
+
+  <!-- Big map (M) -->
+  <div id="bigMap" class="overlay hidden">
+    <div class="panel">
+      <h2>TACTICAL MAP</h2>
+      <canvas id="bigMapCanvas" width="500" height="500"></canvas>
+      <p>Press M to close</p>
+    </div>
+  </div>
+
+  <!-- Scoreboard (Tab) -->
+  <div id="scoreboard" class="overlay hidden">
+    <div class="panel">
+      <h2>SCOREBOARD</h2>
+      <table id="scoreTable"><thead><tr><th>SOLDIER</th><th>KILLS</th><th>DEATHS</th><th>STATUS</th></tr></thead><tbody></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- Three.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Game scripts -->
+<script src="weapons.js"></script>
+<script src="audio.js"></script>
+<script src="ai.js"></script>
+<script src="game.js"></script>
+<script src="ui.js"></script>
+<!-- v7 polish: high-quality weapon meshes, fixed sights, movement safety -->
+<script src="polish.js"></script>
+<!-- v8 polish: clean obstacle overlaps, tighten bounding boxes, add detail -->
+<script src="mapPolish.js"></script>
+</body>
+</html>
