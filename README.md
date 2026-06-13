@@ -11,6 +11,20 @@
 
 </div>
 
+## Usage — step by step
+
+1. Play instantly in any modern browser — no install: <https://cognis-digital.github.io/operation-blackout/>
+2. To run locally, clone the repo:
+   ```bash
+   git clone https://github.com/cognis-digital/operation-blackout.git && cd operation-blackout
+   ```
+3. Serve the static files (it is a self-contained HTML5 + JS canvas/WebGL FPS):
+   ```bash
+   python -m http.server 8000
+   ```
+4. Open the game and play by browsing to <http://localhost:8000>.
+5. Host your own copy — any static host works (the repo is GitHub Pages-ready via `index.html` + `.nojekyll`); push to a gh-pages-enabled repo, or drop `index.html` on any CDN/static bucket.
+
 ## About
 Operation Blackout — a fast browser FPS. Built as a self-contained browser experience (HTML5 + JS canvas/WebGL). Part of the [Cognis Digital](https://cognis.digital) labs.
 
