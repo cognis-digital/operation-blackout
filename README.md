@@ -11,6 +11,35 @@
 
 </div>
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{
+  "id": "1234567890",
+  "status": "success",
+  "results": [
+    {
+      "device_id": "ABC123",
+      "name": "Example Device",
+      "location": "Room 101",
+      "result_code": "OK"
+    },
+    {
+      "device_id": "DEF456",
+      "name": "Another Example Device",
+      "location": "Room 202",
+      "result_code": "WARNING"
+    }
+  ]
+}
+```
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 1. Play instantly in any modern browser — no install: <https://cognis-digital.github.io/operation-blackout/>
